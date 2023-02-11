@@ -52,7 +52,19 @@ def exec(conn, path):
                 cursor.execute(statement)
     except sql.Error as error:
         print("\n" + error)
-    return cursor
+
+def execSelect(conn, path):
+    file = open(path)
+    reader = file.read()
+    cursor = conn.cursor()
+    try:
+        for statement in reader.split(';'):
+            if len(statement) > 2:
+                cursor.execute(statement)
+                response = cursor.fetchall()
+                print(response)
+    except sql.Error as error:
+        print("\n" + error)
 
     
 def main():
@@ -71,15 +83,15 @@ def main():
         chooseOpt()
 
         if opt == 1:
-            _ = exec(conn, sqlPaths['borrarModelo'])
+            exec(conn, sqlPaths['borrarModelo'])
         elif opt == 2:
-            _ = exec(conn, sqlPaths['crearModelo'])
+            exec(conn, sqlPaths['crearModelo'])
         elif opt == 3:
             continue
         elif opt == 4:
-            _ = exec(conn, sqlPaths['cargarInformacion'])
+            exec(conn, sqlPaths['cargarInformacion'])
         elif opt == 5:
-            cursor = exec(conn, sqlPaths['realizarConsultas'])
+            cursor = execSelect(conn, sqlPaths['realizarConsultas'])
             response = cursor.fetchall()
             print(response)
         elif opt == 6:
