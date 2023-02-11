@@ -1,4 +1,3 @@
-import pandas as pd
 import pyodbc as sql
 import os
 from os import system
@@ -9,6 +8,15 @@ load_dotenv()
 credentials = {
     'server': os.getenv('DATABASE_SERVER'),
     'database': os.getenv('DATABASE_NAME')
+}
+
+rootPath = "D:\\PythonProjects\\Semi_Practica1\\Scripts\\"
+
+sqlPaths = {
+    'borrarModelo': rootPath + "BorrarModelo.sql",
+    'crearModelo': rootPath + "CrearModelo.sql",
+    'cargarInformacion': rootPath + "CargarInformacion.sql",
+    'realizarConsultas': rootPath + "RealizarConsultas.sql"
 }
 
 def newConnection():
@@ -38,28 +46,47 @@ def exec(conn, path):
     file = open(path)
     reader = file.read()
     cursor = conn.cursor()
-    for statement in reader.split(';'):
-        if len(statement) > 1:
-            cursor.execute(statement)
-            response = cursor.fetchall()
-            print(response)
+    try:
+        for statement in reader.split(';'):
+            if len(statement) > 2:
+                cursor.execute(statement)
+    except sql.Error as error:
+        print("\n" + error)
+    return cursor
 
     
 def main():
-    options = ["1. Borrar modelo", "2. Crear modelo", "3. Extraer informacion", "4. Cargar informacion", "5. Realizar consultas", "6. Salir"]
+    global opt
+    conn = newConnection()
     while True:
-        conn = newConnection()
-        print()
-        for option in options:
-            print( option)
+        print('''
+        1. Borrar modelo
+        2. Crear modelo
+        3. Extraer informacion
+        4. Cargar informacion
+        5. Realizar consultas
+        6. Salir
+        ''')
 
         chooseOpt()
 
         if opt == 1:
+            _ = exec(conn, sqlPaths['borrarModelo'])
+        elif opt == 2:
+            _ = exec(conn, sqlPaths['crearModelo'])
+        elif opt == 3:
             continue
+        elif opt == 4:
+            _ = exec(conn, sqlPaths['cargarInformacion'])
+        elif opt == 5:
+            cursor = exec(conn, sqlPaths['realizarConsultas'])
+            response = cursor.fetchall()
+            print(response)
         elif opt == 6:
             print("\nHasta la vista")
             break
+        else:
+            print("\nIngresar opción válida")
 
 
 if __name__ == '__main__':

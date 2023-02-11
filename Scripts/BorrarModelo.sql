@@ -1,0 +1,3 @@
+DROP TABLE Temp;
+DROP TABLE Tsunami;
+DROP TABLE Country;
