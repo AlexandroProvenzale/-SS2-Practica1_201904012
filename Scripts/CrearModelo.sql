@@ -2,9 +2,9 @@
 
 CREATE TABLE Temp(
 	TsuYear int,
-	MaxWaterHeight decimal,
+	MaxWaterHeight float,
 	TotalDeaths int,
-	TotalDamage decimal,
+	TotalDamage float,
 	TotalHousesDestroyed int,
 	TotalHousesDamaged int,
 	Pais varchar(75)
@@ -18,9 +18,9 @@ CREATE TABLE Country(
 CREATE TABLE Tsunami(
 	Id int IDENTITY(1,1) PRIMARY KEY,
 	TsuYear int,
-	MaxWaterHeight decimal,
+	MaxWaterHeight float,
 	TotalDeaths int,
-	TotalDamage decimal,
+	TotalDamage float,
 	TotalHousesDestroyed int,
 	TotalHousesDamaged int,
 	IdCountry int,

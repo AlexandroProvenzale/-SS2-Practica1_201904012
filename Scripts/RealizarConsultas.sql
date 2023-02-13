@@ -21,6 +21,7 @@ GROUP BY Country.Country;
 SELECT AVG(Tsunami.TotalDamage) AS 'Total Damage Promedio', Country.Country AS 'Pais'
 FROM Tsunami INNER JOIN Country
 ON Tsunami.IdCountry = Country.IdCountry
+WHERE Tsunami.TotalDamage != 0
 GROUP BY Country.Country ORDER BY 'Total Damage Promedio' DESC;
 
 /* Consulta 5 */
@@ -55,4 +56,5 @@ GROUP BY Country.Country ORDER BY 'Casas daniadas' DESC;
 SELECT AVG(Tsunami.MaxWaterHeight) AS 'Altura maxima agua promedio', Country.Country AS 'Pais'
 FROM Tsunami INNER JOIN Country
 ON Tsunami.IdCountry = Country.IdCountry
+WHERE Tsunami.MaxWaterHeight != 0
 GROUP BY Country.Country ORDER BY 'Altura maxima agua promedio' DESC;
