@@ -1,3 +1,5 @@
+import pandas as pd
+import numpy as np
 import pyodbc as sql
 import os
 from dotenv import load_dotenv
@@ -98,7 +100,17 @@ def main():
             execScript(conn, sqlPaths['crearModelo'], False)
             print("\nSe creó el modelo correctamente")
         elif opt == 3:
-            continue
+            csvPath = input("\nIngrese la ruta del archivo csv: ")
+            if not csvPath.endswith('.csv'):
+                print("El archivo ingresado no es de formato csv")
+                continue
+            file = pd.read_csv(csvPath, on_bad_lines='skip')
+            finalFile = file[['Year', 'Maximum Water Height (m)', 'Total Deaths', 'Total Damage ($Mil)', 'Total Houses Destroyed', 'Total Houses Damaged', 'Country']].copy().fillna(0)
+            del file
+            finalFile = finalFile.astype({'Year': int, 'Total Deaths': int, 'Total Houses Destroyed': int, 'Total Houses Damaged': int})
+            finalFile.to_csv('.\\historial_tsunamis.csv', index=False)
+            del finalFile
+            
         elif opt == 4:
             execScript(conn, sqlPaths['cargarInformacion'], False)
             print("\nSe Cargó la información al modelo correctamente")
