@@ -7,7 +7,7 @@ FROM
 WITH(
 	FIELDTERMINATOR = ',',
 	ROWTERMINATOR = '\n',
-	FIRSTROW = 3
+	FIRSTROW = 2
 );
 
 /* Separación de datos */

@@ -106,6 +106,7 @@ def main():
                 continue
             file = pd.read_csv(csvPath, on_bad_lines='skip')
             finalFile = file[['Year', 'Maximum Water Height (m)', 'Total Deaths', 'Total Damage ($Mil)', 'Total Houses Destroyed', 'Total Houses Damaged', 'Country']].copy().fillna(0)
+            finalFile = finalFile.drop([0], axis=0)
             del file
             finalFile = finalFile.astype({'Year': int, 'Total Deaths': int, 'Total Houses Destroyed': int, 'Total Houses Damaged': int})
             finalFile.to_csv('.\\historial_tsunamis.csv', index=False)
