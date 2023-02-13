@@ -11,7 +11,11 @@ FROM Tsunami
 GROUP BY Tsunami.TsuYear ORDER BY Tsunami.TsuYear ASC;
 
 /* Consulta 3 */
-
+SELECT Country.Country AS Pais, STRING_AGG(Tsunami.TsuYear, ':')
+WITHIN GROUP (ORDER BY Tsunami.TsuYear ASC) AS Anios
+FROM Tsunami INNER JOIN Country
+ON Tsunami.IdCountry = Country.IdCountry
+GROUP BY Country.Country;
 
 /* Consulta 4 */
 SELECT AVG(Tsunami.TotalDamage) AS 'Total Damage Promedio', Country.Country AS 'Pais'

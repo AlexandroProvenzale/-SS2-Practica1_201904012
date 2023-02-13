@@ -1,6 +1,5 @@
 import pyodbc as sql
 import os
-from os import system
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -10,7 +9,7 @@ credentials = {
     'database': os.getenv('DATABASE_NAME')
 }
 
-rootPath = "D:\\PythonProjects\\Semi_Practica1\\Scripts\\"
+rootPath = ".\\Scripts\\"
 
 sqlPaths = {
     'borrarModelo': rootPath + "BorrarModelo.sql",
@@ -57,23 +56,20 @@ def execScript(conn, path, select):
                 cursor.execute(statement)
                 if select:
                     cntr += 1
+                    string = ""
                     rows = cursor.fetchall()
-                    if cntr != 10: #Cambiar a 3 por favooooooooooor
-                        string = ""
-                        print("\nConsulta " + str(cntr) + "\n")
-                        header = False
-                        for row in rows:
-                            if not header:
-                                string += ", ".join(t[0] for t in row.cursor_description) + "\n"
-                                print("| ", " | ".join(t[0] for t in row.cursor_description), " |")
-                                header = True
-                            print("| ", " | ".join(str(item) for item in row), " |")
-                            string += ", ".join(str(item) for item in row) + "\n"
-                        f = open("Consulta" + str(cntr) + ".csv", "w")
-                        f.write(string)
-                        f.close()
-                    else:
-                        continue
+                    print("\nConsulta " + str(cntr) + "\n")
+                    header = False
+                    for row in rows:
+                        if not header:
+                            string += ", ".join(t[0] for t in row.cursor_description) + "\n"
+                            print("| ", " | ".join(t[0] for t in row.cursor_description), " |")
+                            header = True
+                        print("| ", " | ".join(str(item) for item in row), " |")
+                        string += ", ".join(str(item) for item in row) + "\n"
+                    f = open("Consulta" + str(cntr) + ".csv", "w")
+                    f.write(string)
+                    f.close()
         conn.commit()
     except sql.Error as error:
         print("\n" + error)
